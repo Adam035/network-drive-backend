@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
@@ -42,7 +41,7 @@ public class UserMapperImpl implements UserMapper {
         user.setCreatedAt(LocalDateTime.now());
         user.setAvatarUrl(createUserRequestDto.avatarUrl());
         user.setRole(createUserRequestDto.role());
-        user.setFiles(List.of());
+        user.setItems(List.of());
         return user;
     }
 }

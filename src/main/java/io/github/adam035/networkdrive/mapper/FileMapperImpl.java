@@ -42,16 +42,18 @@ public class FileMapperImpl implements FileMapper {
         }
         File file = new File();
         file.setName(createFileRequestDto.name());
+        file.setType("FILE");
         file.setOwner(userRepository.findById(createFileRequestDto.ownerId())
                 .orElse(null));
 
         if (createFileRequestDto.directoryId() != null) {
-            file.setDirectory(directoryRepository
+            file.setParentDirectory(directoryRepository
                     .findById(createFileRequestDto.directoryId())
                     .orElse(null));
         }
         file.setDeleted(false);
         file.setCreatedAt(LocalDateTime.now());
+        file.setPath("path");
         file.setMd5("MD5");
         file.setSha1("SHA-1");
         file.setSha256("SHA-256");

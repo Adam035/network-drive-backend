@@ -8,4 +8,5 @@ import java.util.List;
 public interface DirectoryService {
     DirectoryDto save(CreateDirectoryRequestDto createDirectoryRequestDto);
     List<DirectoryDto> findAll();
+    void createRootDirectory(Long ownerId, String username);
 }

@@ -30,4 +30,10 @@ public class DirectoryServiceImpl implements DirectoryService {
                 .map(directoryMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public void createRootDirectory(Long ownerId, String username) {
+        String name = String.format("%s_directory", username);
+        save(new CreateDirectoryRequestDto(name, ownerId, null));
+    }
 }

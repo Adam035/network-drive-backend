@@ -41,14 +41,16 @@ public class DirectoryMapperImpl implements DirectoryMapper {
         directory.setName(createDirectoryRequestDto.name());
         directory.setDeleted(false);
         directory.setCreatedAt(LocalDateTime.now());
+        directory.setType("DIRECTORY");
+        directory.setRoot(createDirectoryRequestDto.parentId() == null);
         directory.setOwner(userRepository.findById(createDirectoryRequestDto.ownerId())
                 .orElseThrow(() -> new IllegalArgumentException("Owner not found with ID")));
 
-        if (createDirectoryRequestDto.parentId() != null) {
+        if (directory.isRoot()) {
+            directory.setParentDirectory(null);
+        } else {
             directory.setParentDirectory(directoryRepository.findById(createDirectoryRequestDto.parentId())
                     .orElseThrow(() -> new IllegalArgumentException("Parent directory not found with ID")));
-        } else {
-            directory.setParentDirectory(null);
         }
         return directory;
     }

@@ -5,51 +5,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "directories")
-public class Directory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("DIRECTORY")
+public class Directory extends Item {
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
-    private User owner;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<File> files;
+    @Column(name = "is_root")
+    private boolean isRoot;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "parentDirectory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Directory> subdirectories;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Directory parentDirectory;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany
-    @JoinTable(
-            name = "directory_shares",
-            joinColumns = @JoinColumn(name = "directory_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> sharedWithUsers;
+    private List<Item> items;
 }
